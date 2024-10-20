@@ -46,13 +46,14 @@ st.set_page_config(
 
 # Menu Sidebar cho điều hướng
 def sidebar_menu():
-    st.sidebar.title("Điều hướng")
+    st.sidebar.title("EconVNNewsBot")
+    st.sidebar.subheader("Điều hướng")
     return st.sidebar.selectbox("Chọn trang", ["Tìm kiếm", "Giới thiệu"])
 
 # Trang thông điệp chào mừng
-def display_welcome_message():
-    st.markdown('<h3 style="color: #1a7d3b;" class="header">EconVNNewsBot: Hệ thống suy luận dựa trên truy xuất thông tin cho trả lời câu hỏi về tin tức kinh tế Việt Nam</h3>', unsafe_allow_html=True)
-    st.markdown('<p style="font-size: 18px;">Hệ thống này cung cấp các câu trả lời chính xác, dựa trên bối cảnh từ một kho tin tức kinh tế Việt Nam rộng lớn, được hỗ trợ bởi suy luận RAT và các nguồn tham khảo uy tín.</p>', unsafe_allow_html=True)
+# def display_welcome_message():
+    # st.markdown('<h3 style="color: #1a7d3b;" class="header">EconVNNewsBot: Hệ thống suy luận dựa trên truy xuất thông tin cho trả lời câu hỏi về tin tức kinh tế Việt Nam</h3>', unsafe_allow_html=True)
+    # st.markdown('<p style="font-size: 18px;">Hệ thống này cung cấp các câu trả lời chính xác, dựa trên bối cảnh từ một kho tin tức kinh tế Việt Nam rộng lớn, được hỗ trợ bởi suy luận RAT và các nguồn tham khảo uy tín.</p>', unsafe_allow_html=True)
 
 # Hàm chính của ứng dụng
 def main():
@@ -60,7 +61,7 @@ def main():
     inject_custom_css()
 
     # Hiển thị thông điệp chào mừng khi khởi động
-    display_welcome_message()
+    # display_welcome_message()
     
     # Điều hướng Sidebar
     selected_page = sidebar_menu()

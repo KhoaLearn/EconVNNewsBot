@@ -59,7 +59,10 @@ class CoTController:
         First rerank the articles using RAGController, then process only the top-ranked articles.
         """
         # Rerank the articles using RAGController and get the top articles
+        # top_articles = self.rag_controller.rerank_articles(question, articles, top_k=5)
+        # Rerank the articles using RAGController and get the top articles
         top_articles = self.rag_controller.rerank_articles(question, articles, top_k=5)
+
 
         chain_of_thoughts = ""
         cite_list = []  # To store the list of unique references
@@ -88,7 +91,7 @@ class CoTController:
         # Combine the analyses and answer the question
         final_prompt = f"Based on the following analyses of multiple articles:\n\n{chain_of_thoughts}\n"
         final_prompt += f"Please synthesize the information and answer the following question: '{question}'.\n"
-        final_prompt += "Ensure the answer is based on the combined analyses and cite the relevant articles using their titles and publication dates."
+        final_prompt += "Ensure the answer is based on the combined analyses and cite the relevant articles using their publication dates and titles. If there is no relevant information to answer the question '{question}', please return 'Curently we have no relevant information' from {source}. Do not add any information that is not present in the article content."
         final_prompt += " The answer should be in Vietnamese."
 
         # Call OpenAI API to generate the final answer

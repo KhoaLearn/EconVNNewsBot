@@ -1,58 +1,45 @@
-from sentence_transformers import SentenceTransformer
-from pyvi.ViTokenizer import tokenize  # Use this for Vietnamese tokenization
-from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
+from transformers import AutoModelForSequenceClassification, AutoTokenizer
+import torch
 
 class RAGController:
     def __init__(self):
-        # Load the Vietnamese embedding model from Hugging Face
-        self.model = SentenceTransformer('dangvantuan/vietnamese-embedding')
-
-    def embed_text(self, text):
-        """
-        Embed the text using 'dangvantuan/vietnamese-embedding' model.
-        The input text is first tokenized using ViTokenizer, then embedded.
-        """
-        # Tokenize the text (necessary for Vietnamese language processing)
-        tokenized_text = tokenize(text)
-        
-        # Generate embeddings using the SentenceTransformer model
-        embeddings = self.model.encode([tokenized_text])
-        return embeddings[0]  # Return the first (and only) embedding
+        # Load the Jina Rerank model
+        self.rerank_model = AutoModelForSequenceClassification.from_pretrained(
+            'jinaai/jina-reranker-v2-base-multilingual',
+            torch_dtype="auto",
+            trust_remote_code=True,
+        )
+        self.tokenizer = AutoTokenizer.from_pretrained('jinaai/jina-reranker-v2-base-multilingual')
+        self.rerank_model.eval()
 
     def rerank_articles(self, question, articles, top_k=5):
         """
-        Rerank articles based on their relevance to the question.
+        Rerank articles based on their relevance to the question using Jina Reranker.
         Return the top K most relevant articles.
         """
-        # Embed the question (embedding as vector)
-        question_embedding = self.embed_text(question)
+        # Create sentence pairs between the query and each article (title + content)
+        sentence_pairs = [[question, f"{article.get('title', 'N/A')}. {article.get('content', 'N/A')}"] for article in articles]
+        
+        # Tokenize the sentence pairs for the rerank model
+        inputs = self.tokenizer(sentence_pairs, padding=True, truncation=True, return_tensors="pt", max_length=512)
+        
+        # Predict the scores using the rerank model
+        with torch.no_grad():
+            outputs = self.rerank_model(**inputs)
+            logits = outputs.logits.squeeze()  # Ensure logits are correctly shaped
 
-        # Initialize a list to hold the similarity scores and article data
-        ranked_articles = []
+        # If logits is 1D (single class), treat it directly
+        if len(logits.shape) == 1:
+            scores = logits
+        else:
+            # Otherwise, use the second column (relevance score) as originally planned
+            scores = logits[:, 1]  # This assumes a binary classification problem
 
-        # Loop through each article to calculate similarity with the question
-        for article in articles:
-            title = article.get('title', 'N/A')
-            content = article.get('content', 'N/A')
-
-            # Combine the title and content for better context
-            article_text = f"{title}. {content}"
-            
-            # Embed the article (embedding as vector)
-            article_embedding = self.embed_text(article_text)
-
-            # Compute cosine similarity between question and article
-            similarity = cosine_similarity(
-                question_embedding.reshape(1, -1),
-                article_embedding.reshape(1, -1)
-            )[0][0]
-
-            # Append the article and its similarity score to the ranked list
-            ranked_articles.append((article, similarity))
-
-        # Sort articles by similarity score (highest first)
+        # Combine articles with their scores
+        ranked_articles = [(article, score.item()) for article, score in zip(articles, scores)]
+        
+        # Sort articles by their scores (highest score first)
         ranked_articles.sort(key=lambda x: x[1], reverse=True)
 
-        # Return the top K most relevant articles
+        # Return the top K most relevant articles in the same format as the original code
         return [article for article, _ in ranked_articles[:top_k]]
