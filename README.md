@@ -1,6 +1,6 @@
 # EconVNNewsBot
 
-**EconVNNewsBot** is an advanced question-answering system that leverages **Retrieval-Augmented Thoughts (RAT)** and **Chain of Thought (CoT) reasoning** to process queries related to Vietnamese economic news. This system is designed to efficiently retrieve relevant articles and synthesize comprehensive answers, offering contextually accurate and precise information. By combining cutting-edge NLP techniques such as vector-based retrieval, re-ranking, and thought reasoning, EconVNNewsBot addresses the complexities of economic news with ease.
+**EconVNNewsBot** is an advanced question-answering system that leverages **Retrieval-Augmented Generation (RAG)** and **Chain of Thought (CoT) reasoning** to process queries related to Vietnamese economic news. This system is designed to efficiently retrieve relevant articles and synthesize comprehensive answers, offering contextually accurate and precise information. By combining cutting-edge NLP techniques such as vector-based retrieval, re-ranking, and thought reasoning, EconVNNewsBot addresses the complexities of economic news with ease.
 
 ---
 
@@ -20,11 +20,11 @@
 
 ## Project Overview
 
-EconVNNewsBot is built to streamline the querying of Vietnamese economic news. With a dataset encompassing over 300,000 articles from major news sources like VNExpress, VietnamNet, and CafeF, the system provides a robust solution for answering economic queries with high accuracy and context. By combining the power of **semantic chunking**, **vector-based retrieval**, and **re-ranking models**, it ensures that users receive reliable answers, even for complex queries.
+EconVNNewsBot is built to streamline the querying of Vietnamese economic news. With a dataset encompassing over 268,000 articles from major news sources like VNExpress, VietnamNet, and CafeF, the system provides a robust solution for answering economic queries with high accuracy and context. By combining the power of **semantic chunking**, **vector-based retrieval**, and **re-ranking models**, it ensures that users receive reliable answers, even for complex queries.
 
 **Key Highlights**:
 
-- **Retrieval-Augmented Thought (RAT)** methodology ensures relevant article retrieval and refined answers using multiple sources.
+- **Retrieval-Augmented Generation (RAG)** methodology ensures relevant article retrieval and refined answers using multiple sources.
 - Utilization of the **Chain of Thought (CoT)** mechanism to break down complex questions into manageable reasoning steps.
 - A user-friendly **Streamlit-based interface** allows for intuitive query input, filtering by date, source, and category.
 
@@ -141,9 +141,13 @@ EconVNNewsBot/
 │   ├── rag_controller.py       # Handles retrieval and re-ranking of articles
 │   ├── source.csv              # News sources for filtering
 │
-├── docs/                       # Documentation and images
+├── docs/
 │   ├── EconVNNewsBot.png        # System architecture diagram
 │   ├── UI_system.png            # User interface screenshot
+├── docs/QA_test_result                       # Documentation and images
+│   ├──├── 
+│   ├──├── QA_1.png   
+│   ├──├── ...
 │
 ├── src/                        # Source code for embedding models
 │   └── model.py                # Embedding model using Vietnamese embeddings
