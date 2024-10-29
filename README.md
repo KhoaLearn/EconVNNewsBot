@@ -1,6 +1,6 @@
 # EconVNNewsBot
 
-**EconVNNewsBot** is an advanced question-answering system that leverages **Retrieval-Augmented Generation (RAG)** and **Chain of Thought (CoT) reasoning** to process queries related to Vietnamese economic news. This system is designed to efficiently retrieve relevant articles and synthesize comprehensive answers, offering contextually accurate and precise information. By combining cutting-edge NLP techniques such as vector-based retrieval, re-ranking, and thought reasoning, EconVNNewsBot addresses the complexities of economic news with ease.
+**EconVNNewsBot** is an advanced question-answering system that utilizes **Retrieval-Augmented Generation (RAG)** and **Chain of Thought (CoT) reasoning** to process queries on Vietnamese economic news. This system efficiently retrieves relevant articles and synthesizes comprehensive answers, delivering contextually accurate and precise information. By combining cutting-edge NLP techniques such as vector-based retrieval, re-ranking, and thought reasoning, EconVNNewsBot addresses the complexities of economic news.
 
 ---
 
@@ -20,41 +20,37 @@
 
 ## Project Overview
 
-EconVNNewsBot is built to streamline the querying of Vietnamese economic news. With a dataset encompassing over 268,000 articles from major news sources like VNExpress, VietnamNet, and CafeF, the system provides a robust solution for answering economic queries with high accuracy and context. By combining the power of **semantic chunking**, **vector-based retrieval**, and **re-ranking models**, it ensures that users receive reliable answers, even for complex queries.
+EconVNNewsBot streamlines the querying of Vietnamese economic news. With a dataset of over 268,000 articles from sources such as VNExpress, VietnamNet, and CafeF, the system provides a robust solution for delivering accurate and relevant economic information. Utilizing **semantic chunking**, **vector-based retrieval**, and **re-ranking models**, it ensures that users receive comprehensive answers, even for complex queries.
 
 **Key Highlights**:
 
-- **Retrieval-Augmented Generation (RAG)** methodology ensures relevant article retrieval and refined answers using multiple sources.
-- Utilization of the **Chain of Thought (CoT)** mechanism to break down complex questions into manageable reasoning steps.
-- A user-friendly **Streamlit-based interface** allows for intuitive query input, filtering by date, source, and category.
-
-![EconVNNewsBot Architecture](docs/EconVNNewsBot.png)
-
-The above figure shows the overall architecture of the EconVNNewsBot system, which integrates multiple components such as EconVNNewsCrawl for data collection, semantic chunking, embedding-based retrieval, and Chain of Thought reasoning to generate detailed answers.
+- **Retrieval-Augmented Generation (RAG)** for effective retrieval and answer refinement from multiple sources.
+- **Chain of Thought (CoT)** mechanism to decompose complex queries into logical steps.
+- Intuitive **Streamlit-based interface** for easy query input and filtering by date, source, and category.
 
 ---
 
 ## Features
 
-- **Advanced Economic Query Processing**: The system allows users to ask natural language questions related to Vietnamese economic news and generates detailed answers by retrieving and analyzing relevant news articles.
-- **Chain of Thought Reasoning**: The CoT mechanism ensures that answers are synthesized by reasoning through multiple articles, ensuring coherent and in-depth responses.
-- **Streamlit UI**: The interface provides easy query input and filtering options to refine search results based on category, date, or source.
-- **Re-ranking and Semantic Chunking**: The system uses advanced Vietnamese embeddings and cosine similarity to prioritize the most relevant content, offering answers that are contextually relevant and precise.
-- **Comprehensive Dataset**: The underlying dataset includes articles from 2020 to 2024, ensuring that answers are based on the most up-to-date information available.
+- **Advanced Economic Query Processing**: Handles natural language questions related to Vietnamese economic news, providing in-depth answers by retrieving and analyzing relevant articles.
+- **Chain of Thought Reasoning**: Synthesizes answers by reasoning across multiple articles to ensure coherence and depth.
+- **Streamlit UI**: User-friendly interface with options for query input and filtering based on category, date, or source.
+- **Re-ranking and Semantic Chunking**: Uses Vietnamese embeddings and cosine similarity to prioritize relevant content, offering precise, contextually relevant answers.
+- **Comprehensive Dataset**: Includes articles from 2020 to 2024, ensuring answers are based on up-to-date information.
 
 ---
 
 ## System Architecture
 
-EconVNNewsBot’s architecture consists of several components working in unison to deliver accurate and contextually relevant answers:
+The architecture of EconVNNewsBot comprises several components working in unison to deliver accurate and contextually relevant answers:
 
-1. **Data Collection**: The **EconVNNewsCrawl** tool aggregates Vietnamese economic news from multiple reliable sources, ensuring comprehensive data coverage.
-2. **Data Preprocessing and Chunking**: Collected articles are semantically chunked into manageable pieces, which are then embedded using the **jina-embeddings-v3** model.
-3. **Vector Database**: Pinecone is used to store the embeddings of articles, enabling fast and efficient similarity searches between user queries and articles.
-4. **Re-ranking and CoT**: The top articles retrieved from Pinecone are reranked based on relevance using the **jina-reranker-v2-base-multilingual** model. CoT then processes the highest-ranked articles to synthesize an answer.
-5. **Frontend UI**: The Streamlit-based interface allows users to input queries and filter search results based on multiple criteria.
+1. **Data Collection**: The **EconVNNewsCrawl** tool gathers Vietnamese economic news from reliable sources.
+2. **Data Preprocessing and Chunking**: Articles are semantically chunked and embedded using the **jina-embeddings-v3** model.
+3. **Vector Database**: Embeddings are stored in Pinecone, enabling efficient similarity-based retrieval.
+4. **Re-ranking and CoT**: The retrieved articles are re-ranked with the **jina-reranker-v2-base-multilingual** model, and CoT processes the top articles to generate a coherent answer.
+5. **Frontend UI**: The Streamlit-based interface allows users to input queries and filter results.
 
-Below is a visual representation of how the system operates from data collection to answer generation:
+Below is a visual representation of the system's workflow:
 
 ![EconVNNewsBot System Architecture](docs/UI_system.png)
 
@@ -63,8 +59,6 @@ Below is a visual representation of how the system operates from data collection
 ## Installation
 
 ### Prerequisites
-
-To install and run EconVNNewsBot, the following dependencies are required:
 
 - Python 3.8 or higher
 - Pip
@@ -108,24 +102,14 @@ To install and run EconVNNewsBot, the following dependencies are required:
 To start the EconVNNewsBot application, use the following command:
 
 ```bash
-streamlit run views/streamlit_ui.py
+streamlit run app.py
 ```
 
-Once the app is launched, users can:
+Upon launching the app, users can:
 
 - **Submit queries** on Vietnamese economic news.
-- **Filter results** by category, source, and date to narrow down relevant articles.
+- **Filter results** by category, source, and date to refine relevant articles.
 - **View synthesized answers** with references to the original sources.
-
-![EconVNNewsBot User Interface](docs/UI_system.png)
-
-In the figure above:
-
-1. **Input Options**: Users can select categories, sources, and date ranges to customize their queries.
-2. **Date Filters**: Specify a date range to limit search results to a specific time period.
-3. **Query History**: View previously submitted queries for easy reference.
-4. **Detailed Answer**: The system retrieves and displays detailed answers along with references.
-5. **References**: All answers are sourced from the most relevant articles, which are displayed for verification and further reading.
 
 ---
 
@@ -134,20 +118,16 @@ In the figure above:
 ```bash
 EconVNNewsBot/
 │
-├── controller/                # Core logic for managing the QA process
+├── controller/                # Core logic for managing QA process
 │   ├── categories.csv          # List of categories for filtering
 │   ├── cot_controller.py       # Chain of Thought reasoning module
 │   ├── question_controller.py  # Manages question-answering pipeline
 │   ├── rag_controller.py       # Handles retrieval and re-ranking of articles
 │   ├── source.csv              # News sources for filtering
 │
-├── docs/
-│   ├── EconVNNewsBot.png        # System architecture diagram
-│   ├── UI_system.png            # User interface screenshot
-├── docs/QA_test_result                       # Documentation and images
-│   ├──├── 
-│   ├──├── QA_1.png   
-│   ├──├── ...
+├── docs/                       # Documentation and images
+│   ├── EconVNNewsBot.png       # System architecture diagram
+│   ├── UI_system.png           # User interface screenshot
 │
 ├── src/                        # Source code for embedding models
 │   └── model.py                # Embedding model using Vietnamese embeddings
@@ -168,22 +148,20 @@ EconVNNewsBot/
 
 ## Contributing
 
-Contributions are welcome to further improve the system’s functionality and performance. To contribute:
+Contributions are welcome to further improve the system’s functionality. To contribute:
 
 1. **Fork the repository**.
 2. **Create a new branch** with your feature or fix.
 3. **Submit a pull request** with a detailed explanation of your changes.
 
-Please ensure that your code adheres to the project’s style guidelines and includes appropriate tests where necessary.
-
 ---
 
 ## License
 
-This project is licensed under the MIT License. For more details, refer to the [LICENSE](LICENSE) file.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
 
 ## Contact
 
-For inquiries or issues, please feel free to open an issue on GitHub or contact the project maintainers through my contact: khoale.maiu@gmail.com
+For inquiries or issues, open an issue on GitHub or contact the project maintainer at khoale.maiu@gmail.com.

@@ -25,14 +25,27 @@ class CoTController:
         published_date = chunk.get('published_date', 'N/A')
 
         # Create a prompt to analyze the chunk with specific instructions to avoid hallucination
-        prompt_chunk = f"""
-        Analyze the following article published on {published_date} with title '{title}' :
+        # prompt_chunk = f"""
+        # Analyze the following article published on {published_date} with title '{title}' :
         
-        Content: {content}
+        # Content: {content}
 
-        How does this chunk help answer the question: '{question}'?
+        # How does this chunk help answer the question: '{question}'?
 
-        Focus on the economic context and important details mentioned in the chunk. Please ensure the analysis is accurate and relevant to the publication date. If there is no relevant information to answer the question '{question}', please return 'no relevant information' from {source}. Do not add any information that is not present in the chunk content.
+        # Focus on the economic context and important details mentioned in the chunk. Please ensure the analysis is accurate and relevant to the publication date. If there is no relevant information to answer the question '{question}', please return 'no relevant information' from {source}. Do not add any information that is not present in the chunk content.
+        # """
+        prompt_chunk = f"""
+        Step-by-Step Analysis:
+
+        1. **Identify Key Information**: Based on the content provided below, identify the main points related to the query '{question}'.
+        
+        Content: "{content}"
+        
+        2. **Economic Relevance**: Evaluate how this information is relevant to the economic context of the question, with attention to any details about infrastructure, foreign investments, market trends, or economic recovery.
+
+        3. **Answer Contribution**: Explain how this chunk contributes to answering the question '{question}'. If there is no relevant information in this chunk, please respond with 'no relevant information' and specify the source as {source}.
+
+        Note: Ensure that the analysis is accurate, relevant to the publication date ({published_date}), and avoid adding any information not present in the content.
         """
         
         # Call OpenAI API to generate the analysis
@@ -89,11 +102,27 @@ class CoTController:
                 citation_tracker.add(citation_key)  # Mark as cited
 
         # Combine the analyses and answer the question
-        final_prompt = f"Based on the following analyses of multiple articles:\n\n{chain_of_thoughts}\n"
-        final_prompt += f"Please synthesize the information and answer the following question: '{question}'.\n"
-        final_prompt += "Ensure the answer is based on the combined analyses and cite the relevant articles using their publication dates and titles. If there is no relevant information to answer the question '{question}', please return 'Curently we have no relevant information' from {source}. Do not add any information that is not present in the article content."
-        final_prompt += " The answer should be in Vietnamese."
+        # final_prompt = f"Based on the following analyses of multiple articles:\n\n{chain_of_thoughts}\n"
+        # final_prompt += f"Please synthesize the information and answer the following question: '{question}'.\n"
+        # final_prompt += "Ensure the answer is based on the combined analyses and cite the relevant articles using their publication dates and titles. If there is no relevant information to answer the question '{question}', please return 'Curently we have no relevant information' from {source}. Do not add any information that is not present in the article content."
+        # final_prompt += " The answer should be in Vietnamese."
+        final_prompt = f"""
+        Based on the following step-by-step analyses of multiple articles:
 
+        {chain_of_thoughts}
+
+        Please synthesize the information and answer the question: '{question}'.
+
+        Steps for Synthesis:
+        1. Summarize the key points from each analysis that are relevant to the question.
+        2. Identify any recurring themes or important economic indicators mentioned across the articles.
+        3. Provide a coherent answer that combines these insights, ensuring it is contextually relevant and accurate.
+        4. Cite the relevant articles by their titles and publication dates. If there is no relevant information to answer the question, please respond with 'Currently we have no relevant information' and specify the source. Avoid adding any information not present in the article content.
+
+        Note: The answer should be in Vietnamese.
+        """
+        
+        
         # Call OpenAI API to generate the final answer
         final_response = self.client.chat.completions.create(
             model="gpt-4-turbo",
@@ -101,7 +130,7 @@ class CoTController:
                 {"role": "system", "content": "You are an expert in Vietnamese economic news analysis. Please provide detailed and precise answers based on the information provided."},
                 {"role": "user", "content": final_prompt}
             ],
-            max_tokens=1000,
+            max_tokens=700,
             temperature=0.7
         )
 

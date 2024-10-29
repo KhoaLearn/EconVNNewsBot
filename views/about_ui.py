@@ -6,59 +6,59 @@ def display_about_ui():
 
     st.header("Giới thiệu")
     st.write("""
-    EconVNNewsBot là một hệ thống sử dụng AI, được thiết kế để truy vấn và truy xuất tin tức kinh tế Việt Nam một cách hiệu quả. 
-    Sử dụng các mô hình AI tiên tiến và khung suy luận Dựa Trên Truy Xuất Thông Tin (RAT), bot cung cấp các câu trả lời chính xác, dựa trên ngữ cảnh 
-    thông qua việc phân tích và tổng hợp nội dung tin tức có liên quan.
+    **EconVNNewsBot** là một hệ thống sử dụng AI, được thiết kế để truy vấn và truy xuất tin tức kinh tế Việt Nam một cách hiệu quả.
+    Hệ thống kết hợp các mô hình AI tiên tiến và kỹ thuật **Dựa Trên Truy Xuất Thông Tin (RAG)** cùng với **Chuỗi Suy Nghĩ (CoT)** để 
+    cung cấp câu trả lời chính xác và dựa trên ngữ cảnh thông qua việc phân tích và tổng hợp nội dung tin tức liên quan.
     """)
 
     st.header("Quy trình hệ thống")
-    st.image("/Users/datarist/EconVNNewsBot/docs/EconVNNewsBot.png", caption="Quy trình hoạt động của hệ thống EconVNNewsBot")
+    st.image("docs/EconVNNewsBot.png", caption="Quy trình hoạt động của hệ thống EconVNNewsBot")
 
     st.write("""
-    Quy trình hoạt động của EconVNNewsBot đảm bảo rằng người dùng nhận được các câu trả lời chính xác và có lý luận hợp lý. Dưới đây là cái nhìn tổng quan về quy trình:
+    Quy trình hoạt động của **EconVNNewsBot** đảm bảo rằng người dùng nhận được câu trả lời chính xác và có tính lý luận. Dưới đây là cái nhìn tổng quan về quy trình:
 
     1. **Thu thập dữ liệu**: 
-       - Các bài báo tin tức được thu thập từ nhiều nguồn tin kinh tế Việt Nam khác nhau bằng mô-đun **EconVNNewsCrawl**.
-       - Các bài báo này được lưu trữ trong cơ sở dữ liệu tập trung để phân tích.
+       - Các bài báo tin tức được thu thập từ nhiều nguồn tin kinh tế Việt Nam khác nhau qua mô-đun **EconVNNewsCrawl**.
+       - Những bài báo này được lưu trữ trong một cơ sở dữ liệu tập trung để phục vụ cho việc phân tích.
 
     2. **Phân đoạn ngữ nghĩa**:
-       - Các bài báo được chia thành các đoạn ngữ nghĩa có ý nghĩa để truy xuất chính xác, đảm bảo rằng mỗi phần nội dung đều có liên quan đến truy vấn của người dùng.
+       - Các bài báo dài được chia thành các đoạn ngữ nghĩa nhỏ hơn, giúp truy xuất chính xác và đảm bảo rằng mỗi đoạn đều liên quan đến truy vấn của người dùng.
 
     3. **Nhúng văn bản**:
-       - Các đoạn văn bản được chuyển đổi thành các biểu diễn vector thông qua một **Mô hình nhúng văn bản** và được lưu trữ trong **Cơ sở dữ liệu vector** để tìm kiếm tương đồng nhanh chóng.
+       - Các đoạn văn bản được chuyển đổi thành các biểu diễn vector thông qua **Mô hình nhúng văn bản (jina-embeddings-v3)** và lưu trữ trong **Cơ sở dữ liệu vector** để tìm kiếm nhanh chóng.
 
     4. **Xử lý truy vấn**:
-       - Các truy vấn của người dùng được chuyển đổi thành các biểu diễn vector bằng cách sử dụng một **Mô hình nhúng câu hỏi** để so sánh hiệu quả.
+       - Các truy vấn của người dùng cũng được chuyển đổi thành vector sử dụng **Mô hình nhúng câu hỏi**, để dễ dàng so sánh với dữ liệu đã lưu.
 
-    5. **Tìm kiếm & truy xuất vector**:
-       - Hệ thống sẽ tìm kiếm trong **Cơ sở dữ liệu vector** để tìm và xếp hạng những nội dung liên quan nhất dựa trên độ tương đồng với truy vấn.
+    5. **Tìm kiếm và truy xuất vector**:
+       - Hệ thống tìm kiếm trong **Cơ sở dữ liệu vector** để xác định và xếp hạng những nội dung có độ tương đồng cao nhất với truy vấn.
 
-    6. **Suy luận Chuỗi Suy Nghĩ (CoT)**:
-       - Các kết quả hàng đầu được phân tích bằng mô-đun **Chuỗi Suy Nghĩ (CoT)**, tổng hợp thông tin từ nhiều nguồn để tạo ra một câu trả lời mạch lạc và mang tính thông tin.
+    6. **Chuỗi Suy Nghĩ (CoT)**:
+       - Các kết quả hàng đầu được phân tích và tổng hợp qua mô-đun **Chuỗi Suy Nghĩ (CoT)**, kết hợp thông tin từ nhiều nguồn để tạo ra câu trả lời mạch lạc và đầy đủ.
 
     7. **Sinh câu trả lời**:
-       - Một câu trả lời cuối cùng được tạo ra, được hỗ trợ bởi thông tin từ nhiều bài viết và trích dẫn các nguồn tham khảo.
+       - Câu trả lời cuối cùng được tạo ra, dựa trên thông tin từ nhiều bài viết, cùng với các nguồn tham khảo để tăng tính minh bạch và độ tin cậy.
     """)
 
     st.header("Tính năng chính")
     st.write("""
-    - **EconVNNewsCrawl**: Crawler web tùy chỉnh để thu thập tin tức kinh tế Việt Nam.
-    - **Phân đoạn ngữ nghĩa**: Chia nhỏ các bài báo lớn để truy xuất nội dung tốt hơn.
-    - **Cơ sở dữ liệu vector**: Sử dụng Pinecone để tìm kiếm và truy xuất dựa trên vector hiệu quả.
-    - **Suy luận Chuỗi Suy Nghĩ**: Tổng hợp nội dung từ nhiều bài viết để đưa ra các câu trả lời rõ ràng và có căn cứ.
+    - **EconVNNewsCrawl**: Crawler web tùy chỉnh để thu thập tin tức kinh tế Việt Nam từ các nguồn đáng tin cậy.
+    - **Phân đoạn ngữ nghĩa**: Chia nhỏ các bài báo dài thành các đoạn có ý nghĩa để cải thiện hiệu quả truy xuất.
+    - **Cơ sở dữ liệu vector**: Sử dụng Pinecone cho tìm kiếm và truy xuất vector một cách hiệu quả.
+    - **Chuỗi Suy Nghĩ (CoT)**: Tổng hợp thông tin từ nhiều bài báo để đưa ra các câu trả lời chi tiết và có căn cứ.
     """)
 
     st.header("Đội ngũ dự án")
     st.write("""
-    EconVNNewsBot được phát triển bởi một đội ngũ gồm các kỹ sư AI và chuyên gia trong lĩnh vực:
+    **EconVNNewsBot** được phát triển bởi một nhóm kỹ sư AI và các chuyên gia trong lĩnh vực kinh tế:
+    - **Lê Nguyễn Đăng Khoa**
     - **Trần Tuyết Huê** 
-    - **Lê Nguyễn Đăng Khoa** 
-    - **Phạm Minh Châu** - Quản lý dự án
+    - **Phạm Minh Châu** 
     """)
 
     st.header("Thông tin liên hệ")
     st.write("""
-    Mọi thắc mắc hoặc góp ý, vui lòng liên hệ chúng tôi qua:
+    Mọi thắc mắc hoặc đóng góp ý kiến, vui lòng liên hệ chúng tôi qua:
     - **Email**: khoale.aius@gmail.com.vn
     - **Điện thoại**: +84 903 696 581
     """)
