@@ -52,7 +52,7 @@ The architecture of EconVNNewsBot comprises several components working in unison
 
 Below is a visual representation of the system's workflow:
 
-![EconVNNewsBot System Architecture](docs/UI_system.png)
+![EconVNNewsBot System Architecture](docs/EconVNNewsBot.png)
 
 ---
 
